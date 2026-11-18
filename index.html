@@ -470,6 +470,9 @@
             <span id="footerPhoneText" class="text-slate-300 flex items-center gap-2">
               <i class="fa-solid fa-phone text-emerald-400 w-4 text-center"></i> هاتف المبيعات: <a id="footerPhoneLink" href="tel:01060931111" class="hover:text-white font-bold tracking-wider">01060931111</a>
             </span>
+            <span id="footerAdminPhoneText" class="text-slate-300 flex items-center gap-2">
+              <i class="fa-solid fa-phone-volume text-amber-400 w-4 text-center"></i> هاتف الإدارة: <a id="footerAdminPhoneLink" href="tel:01002283545" class="hover:text-white font-bold tracking-wider">01002283545</a>
+            </span>
           </div>
         </div>
 
@@ -501,7 +504,7 @@
           </div>
           <div class="pt-2.5 border-t border-slate-700/60 flex items-center justify-between text-[11px] sm:text-xs text-slate-400">
             <span>لوحة التحكم الخاصة:</span>
-            <button onclick="AdminModule.promptAccess()" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold transition text-[10px] sm:text-[11px] flex items-center gap-1">
+            <button type="button" onclick="AdminModule.promptAccess()" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold transition text-[10px] sm:text-[11px] flex items-center gap-1 cursor-pointer">
               <i class="fa-solid fa-lock text-[10px]"></i> إدارة المتجر
             </button>
           </div>
@@ -673,14 +676,14 @@
 
   <!-- درج المفضلة -->
   <div id="wishlistDrawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex justify-end" onclick="if(event.target===this) UI.toggleDrawer('wishlistDrawer', false)">
-    <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl mobile-sheet-drawer overflow-hidden mt-auto sm:mt-0">
-      <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+    <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl mobile-sheet-drawer overflow-hidden mt-auto sm:mt-0" onclick="event.stopPropagation()">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 relative z-10">
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-heart text-rose-500 text-lg"></i>
           <h3 class="font-black text-sm text-slate-900">الخامات المفضلة</h3>
         </div>
-        <button onclick="UI.toggleDrawer('wishlistDrawer', false)" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition">
-          <i class="fa-solid fa-xmark text-sm"></i>
+        <button type="button" onclick="event.stopPropagation(); UI.toggleDrawer('wishlistDrawer', false);" class="w-9 h-9 rounded-full bg-slate-200 hover:bg-slate-300 active:bg-slate-400 text-slate-700 flex items-center justify-center transition cursor-pointer" aria-label="إغلاق المفضلة">
+          <i class="fa-solid fa-xmark text-base pointer-events-none"></i>
         </button>
       </div>
       <div id="wishlistItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar"></div>
@@ -690,6 +693,39 @@
   <!-- ===================================================================== -->
   <!-- 10. النوافذ المنبثقة (Modals)                                         -->
   <!-- ===================================================================== -->
+
+  <!-- نافذة معاينة وطباعة المستندات (الكتالوج / طلب التسعير / TDS) -->
+  <div id="printPreviewModal" class="fixed inset-0 z-[65] bg-slate-900/75 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this) UI.toggleModal('printPreviewModal', false)">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-100 overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow">
+            <i class="fa-solid fa-print text-sm"></i>
+          </div>
+          <div>
+            <h3 id="printPreviewTitle" class="font-black text-sm sm:text-base leading-tight">معاينة المستند للطباعة</h3>
+            <span class="text-[11px] text-slate-400">يمكنك الطباعة مباشرة أو الحفظ بصيغة PDF</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="ExportService.executeDirectPrint()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow transition cursor-pointer">
+            <i class="fa-solid fa-print"></i>
+            <span>طباعة / حفظ PDF</span>
+          </button>
+          <button type="button" onclick="ExportService.downloadHtmlDoc()" class="px-3 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow transition cursor-pointer" title="تحميل نسخة محفوظة على جهازك">
+            <i class="fa-solid fa-download"></i>
+            <span class="hidden sm:inline">تحميل ملف</span>
+          </button>
+          <button type="button" onclick="UI.toggleModal('printPreviewModal', false)" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+      <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-100 custom-scrollbar">
+        <div id="printPreviewBody" class="bg-white p-5 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-3xl mx-auto"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- أ. نافذة حاسبة نسب الخلط والمساحات -->
   <div id="calcModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4" onclick="if(event.target===this) UI.toggleModal('calcModal', false)">
@@ -1020,7 +1056,7 @@
 
   <!-- ز. نافذة إدخال PIN لوحة التحكم -->
   <div id="adminPinModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4" onclick="if(event.target===this) UI.toggleModal('adminPinModal', false)">
-    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border border-slate-100">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border border-slate-100" onclick="event.stopPropagation()">
       <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto mb-3 text-xl">
         <i class="fa-solid fa-lock"></i>
       </div>
@@ -1030,15 +1066,15 @@
       <input id="adminPinInput" type="password" placeholder="••••" maxlength="8" class="w-full text-center text-lg tracking-widest font-black py-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:border-brand-500 mb-3" onkeydown="if(event.key === 'Enter') AdminModule.verifyPin()">
       
       <div class="flex gap-2">
-        <button onclick="AdminModule.verifyPin()" class="flex-1 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition">دخول</button>
-        <button onclick="UI.toggleModal('adminPinModal', false)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">إلغاء</button>
+        <button type="button" onclick="AdminModule.verifyPin()" class="flex-1 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition cursor-pointer">دخول</button>
+        <button type="button" onclick="UI.toggleModal('adminPinModal', false)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition cursor-pointer">إلغاء</button>
       </div>
     </div>
   </div>
 
   <!-- ح. لوحة التحكم الشاملة (Admin Modal) -->
   <div id="adminModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-2 sm:p-4" onclick="if(event.target===this) UI.toggleModal('adminModal', false)">
-    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-100 overflow-hidden">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-100 overflow-hidden" onclick="event.stopPropagation()">
       <div class="p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow">
@@ -1050,11 +1086,11 @@
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="AdminModule.logout()" class="px-2.5 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-bold transition flex items-center gap-1" title="تسجيل الخروج">
+          <button type="button" onclick="AdminModule.logout()" class="px-2.5 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer" title="تسجيل الخروج">
             <i class="fa-solid fa-right-from-bracket text-xs"></i>
             <span class="hidden sm:inline">خروج</span>
           </button>
-          <button onclick="UI.toggleModal('adminModal', false)" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
+          <button type="button" onclick="UI.toggleModal('adminModal', false)" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition cursor-pointer">
             <i class="fa-solid fa-xmark text-sm"></i>
           </button>
         </div>
@@ -1148,6 +1184,35 @@
           </div>
         </div>
 
+        <!-- 2. تبويب إدارة الخامات (CRUD) -->
+        <div id="tabContent_prodsTab" class="admin-tab-content hidden space-y-4 text-xs">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+            <div class="relative w-full sm:w-72">
+              <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input id="adminProdSearchInput" type="text" placeholder="بحث سريع في الخامات..." oninput="AdminModule.filterAdminProducts(this.value)" class="w-full bg-white text-slate-800 pr-9 pl-3 py-2 rounded-xl border border-slate-300 outline-none focus:border-brand-500 text-xs font-bold">
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button onclick="AdminModule.openProductEditor()" class="flex-1 sm:flex-initial px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-plus text-xs"></i>
+                <span>إضافة خامة جديدة</span>
+              </button>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-2xl overflow-x-auto shadow-sm">
+            <table class="w-full text-right border-collapse text-xs">
+              <thead class="bg-slate-100 font-black text-slate-700">
+                <tr>
+                  <th class="p-2.5">الخامة</th>
+                  <th class="p-2.5">التصنيف</th>
+                  <th class="p-2.5">العبوات</th>
+                  <th class="p-2.5 text-center">الإجراءات السريعة</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- 3. تبويب سجل الطلبات -->
         <div id="tabContent_leadsTab" class="admin-tab-content hidden space-y-4 text-xs">
           <div class="flex items-center justify-between bg-slate-50 p-3 rounded-2xl border border-slate-200">
@@ -1188,6 +1253,10 @@
               <div>
                 <label class="block text-slate-700 font-bold mb-1">رقم هاتف المبيعات:</label>
                 <input id="settingPhone" type="text" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-brand-500 font-bold">
+              </div>
+              <div>
+                <label class="block text-slate-700 font-bold mb-1">رقم هاتف الإدارة:</label>
+                <input id="settingAdminPhone" type="text" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-brand-500 font-bold" placeholder="01002283545">
               </div>
               <div>
                 <label class="block text-slate-700 font-bold mb-1">رقم واتساب المبيعات (مع كود الدولة):</label>
@@ -1279,7 +1348,7 @@
             </div>
 
             <div class="pt-2">
-              <button onclick="AdminModule.saveSettings()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold transition shadow-sm">
+              <button type="button" onclick="AdminModule.saveSettings()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold transition shadow-sm cursor-pointer">
                 حفظ وتحديث إعدادات المتجر
               </button>
             </div>
@@ -1404,6 +1473,7 @@
       favicon: "",
       whatsapp: "201060931111",
       phone: "01060931111",
+      adminPhone: "01002283545",
       pinHash: DEFAULT_PIN_HASH,
       notice: "✨ استيراد وتوريد خامات الفايبر جلاس والبوليستر | جملة وتجزئة للمصانع والورش | شحن لكافة المحافظات",
       mapQuery: "العالمية لخامات الفايبرجلاس والبوليستر، دمياط طريق بورسعيد",
@@ -1784,6 +1854,12 @@
           if (btn) btn.href = phoneHref;
         });
 
+        // هاتف الإدارة
+        const adminPhone = s.adminPhone || "01002283545";
+        const adminPhoneHref = `tel:${adminPhone}`;
+        const footAdminLink = document.getElementById('footerAdminPhoneLink');
+        if (footAdminLink) { footAdminLink.href = adminPhoneHref; footAdminLink.innerText = adminPhone; }
+
         const waLink = `https://wa.me/${(s.whatsapp || "201060931111").replace(/\+/g, '')}`;
         ['footerWaBtn', 'mobileWaBarBtn'].forEach(id => {
           const btn = document.getElementById(id);
@@ -1831,7 +1907,15 @@
       },
 
       toggleDrawer(id, open) {
-        document.getElementById(id)?.classList.toggle('hidden', !open);
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (open) {
+          el.classList.remove('hidden');
+          el.style.display = 'flex';
+        } else {
+          el.classList.add('hidden');
+          el.style.display = 'none';
+        }
       },
 
       toggleModal(id, open) {
@@ -1839,7 +1923,15 @@
           AdminModule.promptAccess();
           return;
         }
-        document.getElementById(id)?.classList.toggle('hidden', !open);
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (open) {
+          el.classList.remove('hidden');
+          el.style.display = 'flex';
+        } else {
+          el.classList.add('hidden');
+          el.style.display = 'none';
+        }
       },
 
       confirmAction(message, onConfirm) {
@@ -2520,17 +2612,21 @@
           this.openPanel();
           return;
         }
-        document.getElementById('adminPinInput').value = '';
+        const pinInput = document.getElementById('adminPinInput');
+        if (pinInput) pinInput.value = '';
         UI.toggleModal('adminPinModal', true);
         setTimeout(() => document.getElementById('adminPinInput')?.focus(), 100);
       },
 
       async verifyPin() {
-        const input = document.getElementById('adminPinInput').value.trim();
+        const input = document.getElementById('adminPinInput')?.value.trim() || '';
         if (!input) {
           UI.toast("يرجى إدخال رمز PIN", true);
           return;
         }
+        const latestStore = Storage.get(STORAGE_KEYS.STORE, AppState.store);
+        AppState.store = latestStore;
+
         const hashedInput = await Security.hashPin(input);
         const storedHash = AppState.store.pinHash || DEFAULT_PIN_HASH;
         const isLegacyMatch = AppState.store.pin && input === AppState.store.pin;
@@ -2582,7 +2678,7 @@
         this.renderTable();
         this.renderLeadsTable();
         this.switchTab('statsTab');
-        document.getElementById('adminModal')?.classList.remove('hidden');
+        UI.toggleModal('adminModal', true);
       },
 
       renderStats() {
@@ -2808,7 +2904,8 @@
         this.renderTable();
         UI.renderCategories();
         UI.renderProducts();
-        UI.toast("تم حفظ الخامة بنجاح");
+        ExportService.refreshCatalogIfOpen();
+        UI.toast("تم حفظ الخامة وتحديث الكتالوج بنجاح");
       },
 
       deleteProduct(id) {
@@ -2819,7 +2916,8 @@
           this.renderTable();
           UI.renderCategories();
           UI.renderProducts();
-          UI.toast("تم حذف الخامة");
+          ExportService.refreshCatalogIfOpen();
+          UI.toast("تم حذف الخامة وتحديث الكتالوج");
         });
       },
 
@@ -2827,6 +2925,7 @@
         const s = AppState.store;
         document.getElementById('settingStoreName').value = s.name || '';
         document.getElementById('settingPhone').value = s.phone || '';
+        document.getElementById('settingAdminPhone').value = s.adminPhone || '01002283545';
         document.getElementById('settingWhatsapp').value = s.whatsapp || '';
         document.getElementById('settingAddress').value = s.footerAddress || '';
         document.getElementById('settingNotice').value = s.notice || '';
@@ -2850,14 +2949,21 @@
 
       async saveSettings() {
         if (!AppState.isAdminAuthenticated) return;
-        const currentPinInput = document.getElementById('settingCurrentPin').value.trim();
-        const newPinInput = document.getElementById('settingNewPin').value.trim();
-        const confirmPinInput = document.getElementById('settingConfirmPin').value.trim();
+        const currentPinInput = document.getElementById('settingCurrentPin')?.value.trim() || '';
+        const newPinInput = document.getElementById('settingNewPin')?.value.trim() || '';
+        const confirmPinInput = document.getElementById('settingConfirmPin')?.value.trim() || '';
 
-        if (newPinInput) {
+        let pinChanged = false;
+        if (newPinInput || confirmPinInput) {
+          if (!currentPinInput) {
+            UI.toast("يرجى إدخال رمز PIN الحالي أولاً لتأكيد التغيير!", true);
+            return;
+          }
           const currentHashed = await Security.hashPin(currentPinInput);
           const storedHash = AppState.store.pinHash || DEFAULT_PIN_HASH;
-          if (currentHashed !== storedHash) {
+          const isLegacyMatch = AppState.store.pin && currentPinInput === AppState.store.pin;
+
+          if (currentHashed !== storedHash && !isLegacyMatch) {
             UI.toast("رمز PIN الحالي غير صحيح!", true);
             return;
           }
@@ -2871,12 +2977,13 @@
           }
           AppState.store.pinHash = await Security.hashPin(newPinInput);
           delete AppState.store.pin;
-          UI.toast("تم تغيير وتشفير رمز PIN لوحة التحكم بنجاح!");
+          pinChanged = true;
         }
 
         Object.assign(AppState.store, {
           name: document.getElementById('settingStoreName').value.trim(),
           phone: document.getElementById('settingPhone').value.trim(),
+          adminPhone: document.getElementById('settingAdminPhone').value.trim(),
           whatsapp: document.getElementById('settingWhatsapp').value.trim(),
           footerAddress: document.getElementById('settingAddress').value.trim(),
           notice: document.getElementById('settingNotice').value.trim(),
@@ -2893,9 +3000,19 @@
           footerBio: document.getElementById('settingFooterBio').value.trim()
         });
 
-        Storage.set(STORAGE_KEYS.STORE, AppState.store);
+        const saved = Storage.set(STORAGE_KEYS.STORE, AppState.store);
+        if (!saved) {
+          UI.toast("تعذر حفظ الإعدادات في ذاكرة المتصفح!", true);
+          return;
+        }
+
+        // مسح حقول رمز PIN بعد الحفظ
+        document.getElementById('settingCurrentPin').value = '';
+        document.getElementById('settingNewPin').value = '';
+        document.getElementById('settingConfirmPin').value = '';
+
         UI.initStaticElements();
-        UI.toast("تم حفظ وتحديث إعدادات المتجر بنجاح");
+        UI.toast(pinChanged ? "تم تغيير رمز PIN وحفظ كافة إعدادات المتجر بنجاح!" : "تم حفظ وتحديث إعدادات المتجر بنجاح");
       },
 
       exportBackupJSON() {
@@ -2968,6 +3085,9 @@
      * 8. خدمات الطباعة والتصدير (Export & Print Service)
      */
     const ExportService = {
+      currentDocTitle: 'document',
+      currentDocHtml: '',
+
       getPrintLogoSvg(size = 48) {
         return `
           <svg viewBox="0 0 200 200" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
@@ -2996,18 +3116,48 @@
         `;
       },
 
-      triggerPrint(htmlContent) {
+      triggerPrint(htmlContent, docTitle = 'مستند العالمية') {
+        this.currentDocTitle = docTitle;
+        this.currentDocHtml = htmlContent;
+
         const container = document.getElementById('printAreaContainer');
-        if (!container) return;
-        container.innerHTML = htmlContent;
-        setTimeout(() => window.print(), 150);
+        if (container) container.innerHTML = htmlContent;
+
+        const previewBody = document.getElementById('printPreviewBody');
+        const previewTitle = document.getElementById('printPreviewTitle');
+        if (previewBody) previewBody.innerHTML = htmlContent;
+        if (previewTitle) previewTitle.innerText = docTitle;
+
+        UI.toggleModal('printPreviewModal', true);
+      },
+
+      executeDirectPrint() {
+        try {
+          window.focus();
+          window.print();
+        } catch (e) {
+          UI.toast("استخدم زر التحميل لحفظ المستند أو اضغط Ctrl+P", true);
+        }
+      },
+
+      downloadHtmlDoc() {
+        const fullHtml = `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>${this.currentDocTitle}</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"><style>body{font-family:'Tajawal',sans-serif;padding:24px;color:#1e293b;max-width:850px;margin:auto;}@media print{body{padding:0;}}</style></head><body onload="window.print()">${this.currentDocHtml}</body></html>`;
+        const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${this.currentDocTitle.replace(/\s+/g, '_')}.html`;
+        link.click();
+        UI.toast("تم تحميل المستند بنجاح، افتحه للطباعة الفورية");
       },
 
       printProformaInvoice() {
-        if (AppState.cart.length === 0) return;
-        const name = document.getElementById('cartCustName').value.trim() || 'عميل معتمد';
-        const phone = document.getElementById('cartCustPhone').value.trim() || '-';
-        const address = document.getElementById('cartCustAddress').value.trim() || '-';
+        if (!AppState.cart || AppState.cart.length === 0) {
+          UI.toast("قائمة طلب التسعير فارغة!", true);
+          return;
+        }
+        const name = document.getElementById('cartCustName')?.value.trim() || 'عميل معتمد';
+        const phone = document.getElementById('cartCustPhone')?.value.trim() || '-';
+        const address = document.getElementById('cartCustAddress')?.value.trim() || '-';
         const reqId = AppState.draftOrderId || Utils.generateOrderId();
 
         const html = `
@@ -3046,14 +3196,19 @@
               </tbody>
             </table>
             <p style="margin-top:25px;font-size:12px;color:#64748b;text-align:center;">
-              ${AppState.store.footerAddress} - هاتف المبيعات: ${AppState.store.phone}
+              ${AppState.store.footerAddress} - هاتف المبيعات: ${AppState.store.phone} | الإدارة: ${AppState.store.adminPhone || '01002283545'}
             </p>
           </div>
         `;
-        this.triggerPrint(html);
+        this.triggerPrint(html, `طلب_تسعير_${reqId}`);
       },
 
       printCatalogList() {
+        if (!AppState.products || AppState.products.length === 0) {
+          UI.toast("لا توجد خامات في الكتالوج لطباعتها حالياً!", true);
+          return;
+        }
+        AppState.products = Storage.get(STORAGE_KEYS.PRODUCTS, AppState.products);
         const html = `
           <div style="font-family:'Tajawal',sans-serif;line-height:1.6;">
             <div style="border-bottom:3px solid #1e40af;padding-bottom:12px;margin-bottom:18px;display:flex;align-items:center;gap:14px;">
@@ -3082,11 +3237,18 @@
               </tbody>
             </table>
             <p style="margin-top:20px;font-size:12px;color:#64748b;text-align:center;">
-              للطلبات والاستفسارات الفنية: ${AppState.store.phone} | ${AppState.store.footerAddress}
+              للطلبات والاستفسارات الفنية: ${AppState.store.phone} | الإدارة: ${AppState.store.adminPhone || '01002283545'} | ${AppState.store.footerAddress}
             </p>
           </div>
         `;
-        this.triggerPrint(html);
+        this.triggerPrint(html, 'كتالوج_خامات_العالمية');
+      },
+
+      refreshCatalogIfOpen() {
+        const modal = document.getElementById('printPreviewModal');
+        if (modal && !modal.classList.contains('hidden') && this.currentDocTitle === 'كتالوج_خامات_العالمية') {
+          this.printCatalogList();
+        }
       },
 
       downloadProductTDS() {
@@ -3132,11 +3294,11 @@
               </tr>
             </table>
             <div style="margin-top:30px;padding-top:15px;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b;text-align:center;">
-              صدرت هذه الوثيقة الفنية من ${AppState.store.name} - ${AppState.store.footerAddress} | هاتف المبيعات والدعم الفني: ${AppState.store.phone}
+              صدرت هذه الوثيقة الفنية من ${AppState.store.name} - ${AppState.store.footerAddress} | هاتف المبيعات: ${AppState.store.phone} | الإدارة: ${AppState.store.adminPhone || '01002283545'}
             </div>
           </div>
         `;
-        this.triggerPrint(html);
+        this.triggerPrint(html, `نشرة_فنية_${prod.title.slice(0, 20)}`);
       }
     };
 
@@ -3191,7 +3353,7 @@
         if (e.key === 'Escape') {
           UI.closeConfirm();
           UI.closeProductModal();
-          ['calcModal', 'mapModal', 'troubleModal', 'orderSuccessModal', 'adminPinModal', 'productEditorModal', 'adminModal'].forEach(id => {
+          ['printPreviewModal', 'calcModal', 'mapModal', 'troubleModal', 'orderSuccessModal', 'adminPinModal', 'productEditorModal', 'adminModal'].forEach(id => {
             UI.toggleModal(id, false);
           });
           ['cartDrawer', 'wishlistDrawer'].forEach(id => {
