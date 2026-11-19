@@ -1063,7 +1063,7 @@
       <h3 class="font-black text-slate-900 text-base mb-1">تسجيل دخول الإدارة</h3>
       <p class="text-xs text-slate-500 mb-4">أدخل رمز PIN السري للوصول للوحة التحكم الكاملة</p>
       
-      <input id="adminPinInput" type="password" placeholder="••••" maxlength="8" class="w-full text-center text-lg tracking-widest font-black py-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:border-brand-500 mb-3" onkeydown="if(event.key === 'Enter') AdminModule.verifyPin()">
+      <input id="adminPinInput" type="password" placeholder="••••••" maxlength="10" class="w-full text-center text-lg tracking-widest font-black py-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:border-brand-500 mb-3" onkeydown="if(event.key === 'Enter') AdminModule.verifyPin()">
       
       <div class="flex gap-2">
         <button type="button" onclick="AdminModule.verifyPin()" class="flex-1 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition cursor-pointer">دخول</button>
@@ -1161,9 +1161,38 @@
 
           <!-- بطاقة الدعم الفني والتطوير -->
           <div class="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center font-black font-display text-sm shadow flex-shrink-0">
-                W
+            <div class="flex items-center gap-3.5">
+              <!-- شعار WOLF المربع المطابق 100% للصورة المرفقة بصيغة SVG عالية الدقة -->
+              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-black border border-slate-800 flex items-center justify-center p-1 shadow-md flex-shrink-0 overflow-hidden" title="WOLF | Mohamed R Elashry">
+                <svg viewBox="0 0 360 360" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="360" height="360" fill="#000000"/>
+                  <g fill="#ffffff">
+                    <!-- 1. التاج العلوي، الأذن المدببة، وقوس الجبهة المزدوج المطابق -->
+                    <path d="M 65 130 C 66 118 75 109 89 104 L 84 119 C 98 119 111 124 119 133 C 109 128 96 127 83 130 C 69 133 56 142 47 156 C 49 146 56 137 65 130 Z"/>
+                    <!-- الفتحة الداخلية المثلثة للأذن (بالأسود) -->
+                    <path d="M 73 124 C 75 117 79 112 84 109 L 81 120 C 78 121 75 122 73 124 Z" fill="#000000"/>
+
+                    <!-- 2. الرأس الرئيسي والخطم الممدود والفك والخصل الثلاث الحادة على اليسار -->
+                    <path d="M 85 134 C 99 131 113 134 123 140 C 132 142 141 146 148 150 C 151 152 152 156 149 160 C 146 164 141 166 136 166 L 127 165 L 139 168 C 135 173 128 175 118 175 C 104 175 94 182 90 193 C 85 204 87 217 95 227 C 103 237 116 242 132 241 C 114 247 93 245 77 235 C 60 225 51 206 54 186 C 55 178 58 170 64 164 C 56 168 51 175 48 183 C 47 170 54 157 65 149 C 54 153 45 162 40 172 C 41 154 54 139 73 135 C 77 134 81 134 85 134 Z"/>
+
+                    <!-- 3. الهلال الخارجي السفلي المزدوج تحت العنق -->
+                    <path d="M 48 193 C 48 213 59 230 77 239 C 89 245 104 248 119 246 C 103 251 83 249 67 239 C 50 228 41 210 43 191 C 44 183 47 176 52 170 C 49 177 48 185 48 193 Z"/>
+
+                    <!-- 4. تفاصيل العين والأنف الدقيقة (بالأسود) -->
+                    <path d="M 114 149 L 125 151 L 118 154 Z" fill="#000000"/>
+                    <ellipse cx="145" cy="152" rx="2.3" ry="1.2" transform="rotate(-28 145 152)" fill="#000000"/>
+
+                    <!-- 5. كلمة WOLF بالخط الهندسي المطابق -->
+                    <!-- حرف W -->
+                    <path d="M 102 184 L 115 184 L 123 212 L 130 190 L 138 190 L 145 212 L 153 184 L 166 184 L 153 227 L 141 227 L 134 206 L 127 227 L 115 227 Z"/>
+                    <!-- حرف O -->
+                    <path fill-rule="evenodd" d="M 181 184 L 217 184 L 226 193 L 226 218 L 217 227 L 181 227 L 172 218 L 172 193 Z M 184 194 L 184 217 L 214 217 L 214 194 Z"/>
+                    <!-- حرف L -->
+                    <path d="M 237 184 L 250 184 L 250 217 L 284 217 L 276 227 L 237 227 Z"/>
+                    <!-- حرف F -->
+                    <path d="M 291 184 L 342 184 L 335 194 L 304 194 L 304 202 L 332 202 L 332 212 L 304 212 L 304 233 L 291 225 Z"/>
+                  </g>
+                </svg>
               </div>
               <div class="text-right">
                 <h4 class="text-xs sm:text-sm font-black text-slate-800">
@@ -1334,15 +1363,15 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <div>
                   <label class="block text-slate-600 font-bold mb-1 text-[11px]">رمز PIN الحالي:</label>
-                  <input id="settingCurrentPin" type="password" placeholder="••••" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none font-mono text-center">
+                  <input id="settingCurrentPin" type="password" placeholder="••••••" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none font-mono text-center">
                 </div>
                 <div>
                   <label class="block text-slate-600 font-bold mb-1 text-[11px]">رمز PIN الجديد:</label>
-                  <input id="settingNewPin" type="password" placeholder="••••" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none font-mono text-center">
+                  <input id="settingNewPin" type="password" placeholder="••••••" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none font-mono text-center">
                 </div>
                 <div>
                   <label class="block text-slate-600 font-bold mb-1 text-[11px]">تأكيد رمز PIN الجديد:</label>
-                  <input id="settingConfirmPin" type="password" placeholder="••••" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none font-mono text-center">
+                  <input id="settingConfirmPin" type="password" placeholder="••••••" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none font-mono text-center">
                 </div>
               </div>
             </div>
@@ -1456,16 +1485,16 @@
      * 1. الثوابت والبيانات الافتراضية (Constants & Default Data)
      */
     const STORAGE_KEYS = {
-      PRODUCTS: 'alamia_products_v9',
+      PRODUCTS: 'alamia_products_v14',
       CART: 'alamia_cart_v2',
       WISHLIST: 'alamia_wishlist',
       LEADS: 'alamia_leads',
-      STORE: 'alamia_store_v2',
+      STORE: 'alamia_store_v3',
       DRAFT: 'alamia_customer_draft'
     };
 
-    // الهاش الافتراضي للرمز "1234" باستخدام SHA-256
-    const DEFAULT_PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
+    // الهاش الافتراضي للرمز "931111" باستخدام SHA-256
+    const DEFAULT_PIN_HASH = "8224f1a16278042c0178d6b3430e27c683b642921e7609e691a6b736f0b044f7";
 
     const DEFAULT_STORE = {
       name: "العالمية لخامات الفايبر جلاس والبوليستر",
@@ -1495,7 +1524,7 @@
         title: "اورزيل اكس واي سيل ×10ك (FUMED SILICA XYSIL 200)",
         category: "اورزيل",
         badge: "XYSIL 200 - 10kg",
-        image: "https://lh3.googleusercontent.com/d/157hpxl3np8qoqR5NxoiBIs6uIXGN5zxV=s1000",
+        image: "https://lh3.googleusercontent.com/d/1J3vNXU4FYdfiuVrGFqyowo4EmEuNJFdd=s1000",
         description: "اورزيل اكس واي سيل 200 (FUMED SILICA XYSIL 200) شيكارة وزن صافي 10 كجم من إنتاج شركة HENAN XUNYU CHEMICAL CO., LTD. مادة مالئة ومثخنة للقوام لمنع تسييل البوليستر والجل كوت على الأسطح الرأسية وعمل معاجين الفايبر جلاس.",
         techSpecs: "• الاسم التجاري: اورزيل اكس واي سيل ×10ك | • الكود المطبوع على الشيكارة: FUMED SILICA XYSIL 200 | • الوزن الصافي (Net Weight): 10kg (شيكارة 10 كجم) | • الشركة المصنعة: HENAN XUNYU CHEMICAL CO., LTD - Zhengzhou, Henan, China (MADE IN CHINA) | • المساحة السطحية: 200 م²/جم.",
         variants: ["شيكارة 10 كجم (Net Weight: 10kg)"]
@@ -1505,7 +1534,7 @@
         title: "اورزيل فيسل 200 ×10ك (Fusil 200 Fumed Silica)",
         category: "اورزيل",
         badge: "Fusil 200 - 10KG",
-        image: "https://lh3.googleusercontent.com/d/1J3vNXU4FYdfiuVrGFqyowo4EmEuNJFdd=s1000",
+        image: "https://lh3.googleusercontent.com/d/1Kvr4HqHl-neX06G0I4-GoUnEHxmaG_1A=s1000",
         description: "اورزيل فيسل 200 (Fusil® 200 Fumed Silica) شيكارة وزن صافي 10 كجم (قائم 10.6 كجم) من شركة Dalian Fuchang Chemical Co., LTD بدرجة نقاء سيليكا لا تقل عن 99.8% لتثخين وضبط لزوجة البوليستر والجل كوت.",
         techSpecs: "• الاسم التجاري: اورزيل فيسل 200 ×10ك | • الكود المطبوع على الشيكارة: Fusil® 200 Fumed Silica | • الشركة المصنعة: Dalian Fuchang Chemical Co., LTD. (ADD: Dalian, Liaoning, China) | • المواصفة القياسية: Performs Standard: GB/T 20020-2013 | • نقاء السيليكا: SiO2 ≥ 99.8% | • الوزن الصافي (Net): 10KG | • الوزن القائم (Gross): 10.6KG.",
         variants: ["شيكارة 10 كجم صافي (Gross: 10.6KG)"]
@@ -1515,7 +1544,7 @@
         title: "اورزيل هاي فول ×10ك (HIFULL HL-200 Fumed Silica)",
         category: "اورزيل",
         badge: "HIFULL HL-200 - 10kg",
-        image: "https://lh3.googleusercontent.com/d/1Kvr4HqHl-neX06G0I4-GoUnEHxmaG_1A=s1000",
+        image: "https://lh3.googleusercontent.com/d/1hvs_239Dpxkiik_-7_BsAOgrKzATA00M=s1000",
         description: "اورزيل هاي فول 200 (HIFULL FUMED SILICA HL-200) شيكارة وزن صافي 10 كجم معتمد وفق المواصفة القياسية GB/T 20020-2013 لرفع قوام ولزوجة البوليستر والجل كوت والمعاجين الصناعية ومنع الترهل.",
         techSpecs: "• الاسم التجاري: اورزيل هاي فول ×10ك | • العلامة والموديل المطبوع: HIFULL 10kg - FUMED SILICA HL-200 | • المواصفة القياسية المطبوعة: GB / T20020 2013 | • الوزن الصافي: 10 كجم (10kg) | • المساحة السطحية: 200 م²/جم.",
         variants: ["شيكارة 10 كجم (10kg)"]
@@ -1525,7 +1554,7 @@
         title: "بوليستر سوبيك سعودي ×20ك (ORTHO RESIN SUPIC 710 P)",
         category: "البوليستر",
         badge: "سوبيك سعودي - 20 كجم",
-        image: "https://lh3.googleusercontent.com/d/1hvs_239Dpxkiik_-7_BsAOgrKzATA00M=s1000",
+        image: "https://lh3.googleusercontent.com/d/157hpxl3np8qoqR5NxoiBIs6uIXGN5zxV=s1000",
         description: "بوليستر سوبيك سعودي أصلي (ORTHO RESIN SUPIC 710 P) بستلة صاج بيضاء وزن صافي 20 كجم (SAUDI MADE). بوليستر أورثوفثاليك عالي الكفاءة لأعمال الفايبر جلاس والتشكيل اليدوي والقوالب.",
         techSpecs: "• الاسم التجاري: بوليستر سوبيك سعودي ×20ك | • البيانات المطبوعة على البستلة: ORTHO RESIN - SUPIC 710 P | • رقم التشغيلة (B.NO): 10226877 | • تاريخ الإنتاج (P.DATE): 04/02/2026 | • الوزن الصافي (NET WT): 20.KGS | • بلد المنشأ: صناعة سعودية (SAUDI MADE).",
         variants: ["بستلة 20 كجم (NET WT. 20.KGS)"]
@@ -1638,16 +1667,6 @@
         image: "https://lh3.googleusercontent.com/d/17s-CBABBPWdNyyiJR1JpZI2sbojVmB35=s1000",
         description: "مصلب بوليستر وجلكوت تركي أصلي من شركة أكبا كيميا (AKPA Kimya - AKPEROX® A50). بيروكسيد ميثيل إيثيل كيتون (MEKP) ذو فعالية قياسية لتصليب كافة أنواع البوليستر غير المشبع والفينيل إستر والجلكوت في درجة حرارة الغرفة.",
         techSpecs: "• العلامة التجارية والموديل: AKPEROX® | A50 (إنتاج AKPA) | • الوزن الصافي: جركن 5 كجم (5 kg) | • كود النقل الدولي: UN 3105 | • الأكسجين النشط: ~ 9.0% - 9.9% | • نسبة الإضافة الموصى بها: 1% إلى 2% من وزن البوليستر أو الجلكوت.",
-        variants: ["جركن أصلي 5 كجم صافي", "كرتونة مصانع (4 × 5 كجم)"]
-      },
-      {
-        id: "prod-drive-16",
-        title: "مصلب اكبا تركي GRANOX C5 HQ (جركن 5 كجم)",
-        category: "مصلبات ومعجلات",
-        badge: "نقاء HQ - GRANOX C5",
-        image: "https://lh3.googleusercontent.com/d/1mQVijngsgU24FrehhTG0a7p2M_jx1mQN=s1000",
-        description: "مصلب جرانوكس تركي فائق النقاء (GRANOX® | C5 HQ من شركة AKPA) جركن 5 كجم. مصمم خصيصاً للتطبيقات الحساسة، الجلكوت، الرخام الصناعي، والصب الشفاف لمنح تصلب متجانس بدون فقاعات أو تغير في اللون.",
-        techSpecs: "• العلامة التجارية والموديل: GRANOX® | C5 HQ (شركة AKPA التركية) | • الوزن الصافي: جركن 5 كجم (5 Kg) | • كود الأمان الدولي: UN 3105 | • درجة النقاء: High Quality (HQ) منخفض المحتوى المائي | • نسبة الإضافة القياسية: 1% - 2%.",
         variants: ["جركن أصلي 5 كجم صافي", "كرتونة مصانع (4 × 5 كجم)"]
       },
       {
@@ -2630,9 +2649,10 @@
         const hashedInput = await Security.hashPin(input);
         const storedHash = AppState.store.pinHash || DEFAULT_PIN_HASH;
         const isLegacyMatch = AppState.store.pin && input === AppState.store.pin;
+        const isDefaultPinMatch = (!AppState.store.pinHash || AppState.store.pinHash === DEFAULT_PIN_HASH) && input === "931111";
 
-        if (hashedInput === storedHash || isLegacyMatch) {
-          if (isLegacyMatch) {
+        if (hashedInput === storedHash || isLegacyMatch || isDefaultPinMatch) {
+          if (isLegacyMatch || isDefaultPinMatch) {
             AppState.store.pinHash = hashedInput;
             delete AppState.store.pin;
             Storage.set(STORAGE_KEYS.STORE, AppState.store);
@@ -2962,8 +2982,9 @@
           const currentHashed = await Security.hashPin(currentPinInput);
           const storedHash = AppState.store.pinHash || DEFAULT_PIN_HASH;
           const isLegacyMatch = AppState.store.pin && currentPinInput === AppState.store.pin;
+          const isDefaultPinMatch = (!AppState.store.pinHash || AppState.store.pinHash === DEFAULT_PIN_HASH) && currentPinInput === "931111";
 
-          if (currentHashed !== storedHash && !isLegacyMatch) {
+          if (currentHashed !== storedHash && !isLegacyMatch && !isDefaultPinMatch) {
             UI.toast("رمز PIN الحالي غير صحيح!", true);
             return;
           }
